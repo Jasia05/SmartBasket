@@ -1,208 +1,741 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SmartBasket — Fresh Groceries, Delivered</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --forest: #1F3D2B;
-    --forest-dark: #16291D;
-    --cream: #F0EAD6;
-    --paper: #FAF6EA;
-    --gold: #D4A017;
-    --tomato: #C1442D;
-    --sage: #8FA88C;
-    --charcoal: #2B2B26;
-  }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartBasket — Fresh Groceries, Delivered</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --forest: #1f3d2b;
+        --forest-dark: #16291d;
+        --cream: #f0ead6;
+        --paper: #faf6ea;
+        --gold: #d4a017;
+        --tomato: #c1442d;
+        --sage: #8fa88c;
+        --charcoal: #2b2b26;
+      }
 
-  * { box-sizing: border-box; }
-  body { margin: 0; }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
 
-  .bushel-root {
-    font-family: 'Work Sans', sans-serif;
-    color: var(--charcoal);
-    background: var(--cream);
-    min-height: 100vh;
-  }
-  .bushel-display { font-family: 'Fraunces', serif; }
-  .bushel-mono { font-family: 'IBM Plex Mono', monospace; }
+      .bushel-root {
+        font-family: "Work Sans", sans-serif;
+        color: var(--charcoal);
+        background: var(--cream);
+        min-height: 100vh;
+      }
+      .bushel-display {
+        font-family: "Fraunces", serif;
+      }
+      .bushel-mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
 
-  button { font-family: inherit; cursor: pointer; border: none; background: none; }
-  input { font-family: inherit; }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        background: none;
+      }
+      input {
+        font-family: inherit;
+      }
 
-  *:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+      *:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 2px;
+      }
 
-  .btn-primary { background: var(--forest); color: var(--cream); transition: background 0.15s ease; }
-  .btn-primary:hover { background: var(--forest-dark); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+      .btn-primary {
+        background: var(--forest);
+        color: var(--cream);
+        transition: background 0.15s ease;
+      }
+      .btn-primary:hover {
+        background: var(--forest-dark);
+      }
+      .btn-primary:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
 
-  .btn-gold { background: var(--gold); color: var(--forest-dark); transition: filter 0.15s ease; }
-  .btn-gold:hover { filter: brightness(1.06); }
+      .btn-gold {
+        background: var(--gold);
+        color: var(--forest-dark);
+        transition: filter 0.15s ease;
+      }
+      .btn-gold:hover {
+        filter: brightness(1.06);
+      }
 
-  .paper-card { background: var(--paper); border: 1px solid rgba(31,61,43,0.14); }
+      .paper-card {
+        background: var(--paper);
+        border: 1px solid rgba(31, 61, 43, 0.14);
+      }
 
-  .crate-tab {
-    font-family: 'IBM Plex Mono', monospace;
-    border: 2px dashed var(--sage);
-    color: var(--forest);
-    background: var(--paper);
-    white-space: nowrap;
-    padding: 6px 16px;
-    border-radius: 999px;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    flex-shrink: 0;
-    transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
-  }
-  .crate-tab.active { background: var(--gold); border-color: var(--forest-dark); border-style: solid; color: var(--forest-dark); }
+      .crate-tab {
+        font-family: "IBM Plex Mono", monospace;
+        border: 2px dashed var(--sage);
+        color: var(--forest);
+        background: var(--paper);
+        white-space: nowrap;
+        padding: 6px 16px;
+        border-radius: 999px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        flex-shrink: 0;
+        transition:
+          transform 0.12s ease,
+          background 0.12s ease,
+          border-color 0.12s ease;
+      }
+      .crate-tab.active {
+        background: var(--gold);
+        border-color: var(--forest-dark);
+        border-style: solid;
+        color: var(--forest-dark);
+      }
 
-  .product-image-wrap { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; background: var(--cream); margin-bottom: 12px; }
-  .product-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s ease; }
-  .product-card:hover .product-image-wrap img { transform: scale(1.04); }
-  .product-brand { font-size: 11px; color: var(--sage); margin: 0 0 4px; font-family: 'IBM Plex Mono', monospace; }
-  .stock-note { font-size: 10px; color: var(--sage); margin-top: 6px; }
-  .stock-note.low { color: var(--tomato); }
-  .product-card .badge-stack { position: absolute; top: 8px; left: 8px; display: flex; flex-direction: column; gap: 4px; z-index: 2; }
-  .product-card { transition: transform 0.15s ease, box-shadow 0.15s ease; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; }
-  .product-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(31,61,43,0.12); }
+      .product-image-wrap {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--cream);
+        margin-bottom: 12px;
+      }
+      .product-image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.2s ease;
+      }
+      .product-card:hover .product-image-wrap img {
+        transform: scale(1.04);
+      }
+      .product-brand {
+        font-size: 11px;
+        color: var(--sage);
+        margin: 0 0 4px;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .stock-note {
+        font-size: 10px;
+        color: var(--sage);
+        margin-top: 6px;
+      }
+      .stock-note.low {
+        color: var(--tomato);
+      }
+      .product-card .badge-stack {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        z-index: 2;
+      }
+      .product-card {
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
+        border-radius: 16px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+      }
+      .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(31, 61, 43, 0.12);
+      }
 
-  .dotted-leader { flex: 1; border-bottom: 2px dotted rgba(31,61,43,0.35); margin: 0 6px; transform: translateY(-4px); }
+      .dotted-leader {
+        flex: 1;
+        border-bottom: 2px dotted rgba(31, 61, 43, 0.35);
+        margin: 0 6px;
+        transform: translateY(-4px);
+      }
 
-  .receipt-tear {
-    height: 14px;
-    background:
-      linear-gradient(135deg, var(--paper) 50%, transparent 50%),
-      linear-gradient(45deg, var(--paper) 50%, transparent 50%);
-    background-size: 14px 14px;
-    background-position: 0 0, 7px 0;
-    background-repeat: repeat-x;
-  }
+      .receipt-tear {
+        height: 14px;
+        background:
+          linear-gradient(135deg, var(--paper) 50%, transparent 50%),
+          linear-gradient(45deg, var(--paper) 50%, transparent 50%);
+        background-size: 14px 14px;
+        background-position:
+          0 0,
+          7px 0;
+        background-repeat: repeat-x;
+      }
 
-  .cart-drawer { transition: transform 0.25s ease; }
+      .cart-drawer {
+        transition: transform 0.25s ease;
+      }
 
-  .field-input { background: var(--paper); border: 1.5px solid rgba(31,61,43,0.25); color: var(--charcoal); border-radius: 8px; display: flex; align-items: center; padding: 0 12px; margin-top: 6px; }
-  .field-input:focus-within { border-color: var(--forest); }
-  .field-input input { flex: 1; background: transparent; border: none; outline: none; padding: 10px 0; font-size: 14px; }
+      .field-input {
+        background: var(--paper);
+        border: 1.5px solid rgba(31, 61, 43, 0.25);
+        color: var(--charcoal);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        margin-top: 6px;
+      }
+      .field-input:focus-within {
+        border-color: var(--forest);
+      }
+      .field-input input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 10px 0;
+        font-size: 14px;
+      }
 
-  .badge-organic { background: rgba(31,61,43,0.1); color: var(--forest); }
-  .badge-sale { background: var(--tomato); color: var(--paper); }
-  .badge { font-size: 10px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.03em; padding: 2px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px; }
+      .badge-organic {
+        background: rgba(31, 61, 43, 0.1);
+        color: var(--forest);
+      }
+      .badge-sale {
+        background: var(--tomato);
+        color: var(--paper);
+      }
+      .badge {
+        font-size: 10px;
+        font-family: "IBM Plex Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        padding: 2px 8px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
 
-  .icon-circle { width: 64px; height: 64px; border-radius: 999px; overflow: hidden; background: rgba(143,168,140,0.18); flex-shrink: 0; }
-  .icon-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .icon-circle {
+        width: 64px;
+        height: 64px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(143, 168, 140, 0.18);
+        flex-shrink: 0;
+      }
+      .icon-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
 
-  .stepper { display: flex; align-items: center; gap: 8px; border-radius: 999px; padding: 2px; background: var(--cream); }
-  .stepper button { width: 28px; height: 28px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: var(--forest); }
-  .stepper span { font-family: 'IBM Plex Mono', monospace; font-size: 14px; width: 16px; text-align: center; }
+      .stepper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        padding: 2px;
+        background: var(--cream);
+      }
+      .stepper button {
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--forest);
+      }
+      .stepper span {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        width: 16px;
+        text-align: center;
+      }
 
-  .add-btn { background: var(--forest); color: var(--cream); width: 32px; height: 32px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+      .add-btn {
+        background: var(--forest);
+        color: var(--cream);
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-  /* ---------- Layout ---------- */
-  .container { max-width: 1152px; margin: 0 auto; padding: 0 16px; }
+      /* ---------- Layout ---------- */
+      .container {
+        max-width: 1152px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
 
-  header.app-header { position: sticky; top: 0; z-index: 20; background: var(--forest); padding: 12px 16px; }
-  .header-inner { display: flex; align-items: center; gap: 16px; max-width: 1152px; margin: 0 auto; }
-  .logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; color: var(--cream); }
-  .logo span { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+      header.app-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--forest);
+        padding: 12px 16px;
+      }
+      .header-inner {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        max-width: 1152px;
+        margin: 0 auto;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+        color: var(--cream);
+      }
+      .logo span {
+        font-family: "Fraunces", serif;
+        font-size: 20px;
+        font-weight: 600;
+      }
 
-  .search-wrap { flex: 1; display: flex; align-items: center; background: rgba(240,234,214,0.12); border-radius: 999px; padding: 0 12px; }
-  .search-wrap svg { opacity: 0.7; flex-shrink: 0; }
-  .search-wrap input { flex: 1; background: transparent; border: none; outline: none; color: var(--cream); padding: 8px 8px; font-size: 14px; }
-  .search-wrap input::placeholder { color: rgba(240,234,214,0.7); }
+      .search-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        background: rgba(240, 234, 214, 0.12);
+        border-radius: 999px;
+        padding: 0 12px;
+      }
+      .search-wrap svg {
+        opacity: 0.7;
+        flex-shrink: 0;
+      }
+      .search-wrap input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--cream);
+        padding: 8px 8px;
+        font-size: 14px;
+      }
+      .search-wrap input::placeholder {
+        color: rgba(240, 234, 214, 0.7);
+      }
 
-  .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-  .user-chip { display: none; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--cream); opacity: 0.85; }
-  @media (min-width: 640px) { .user-chip { display: flex; } }
-  .icon-btn { padding: 8px; border-radius: 999px; color: var(--cream); display: flex; }
-  .cart-btn { position: relative; padding: 8px; border-radius: 999px; background: var(--gold); display: flex; }
-  .cart-count { position: absolute; top: -4px; right: -4px; width: 20px; height: 20px; border-radius: 999px; background: var(--tomato); color: var(--paper); font-size: 10px; font-family: 'IBM Plex Mono', monospace; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+      .user-chip {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--cream);
+        opacity: 0.85;
+      }
+      @media (min-width: 640px) {
+        .user-chip {
+          display: flex;
+        }
+      }
+      .icon-btn {
+        padding: 8px;
+        border-radius: 999px;
+        color: var(--cream);
+        display: flex;
+      }
+      .cart-btn {
+        position: relative;
+        padding: 8px;
+        border-radius: 999px;
+        background: var(--gold);
+        display: flex;
+      }
+      .cart-count {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 20px;
+        height: 20px;
+        border-radius: 999px;
+        background: var(--tomato);
+        color: var(--paper);
+        font-size: 10px;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-  .category-row { display: flex; gap: 8px; overflow-x: auto; padding: 20px 0 8px; }
+      .category-row {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 20px 0 8px;
+      }
 
-  main.shop-main { padding: 24px 0 48px; }
-  .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  @media (min-width: 640px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+      main.shop-main {
+        padding: 24px 0 48px;
+      }
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      @media (min-width: 640px) {
+        .product-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (min-width: 1024px) {
+        .product-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
 
-  .empty-state { text-align: center; padding: 80px 0; }
-  .empty-state h3 { font-family: 'Fraunces', serif; font-size: 20px; color: var(--forest); margin: 0 0 4px; }
-  .empty-state p { font-size: 14px; color: var(--sage); margin: 0; }
+      .empty-state {
+        text-align: center;
+        padding: 80px 0;
+      }
+      .empty-state h3 {
+        font-family: "Fraunces", serif;
+        font-size: 20px;
+        color: var(--forest);
+        margin: 0 0 4px;
+      }
+      .empty-state p {
+        font-size: 14px;
+        color: var(--sage);
+        margin: 0;
+      }
 
-  /* ---------- Cart drawer ---------- */
-  .drawer-backdrop { position: fixed; inset: 0; z-index: 30; background: rgba(22,41,29,0.4); opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
-  .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+      /* ---------- Cart drawer ---------- */
+      .drawer-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        background: rgba(22, 41, 29, 0.4);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+      .drawer-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
 
-  .cart-drawer { position: fixed; top: 0; right: 0; height: 100%; width: 100%; z-index: 40; transform: translateX(100%); }
-  @media (min-width: 640px) { .cart-drawer { width: 384px; } }
-  .cart-drawer.open { transform: translateX(0); }
-  .drawer-inner { background: var(--paper); height: 100%; display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.15); }
-  .drawer-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px dashed var(--sage); }
-  .drawer-header h2 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--forest); margin: 0; }
+      .cart-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 40;
+        transform: translateX(100%);
+      }
+      @media (min-width: 640px) {
+        .cart-drawer {
+          width: 384px;
+        }
+      }
+      .cart-drawer.open {
+        transform: translateX(0);
+      }
+      .drawer-inner {
+        background: var(--paper);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+      }
+      .drawer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px dashed var(--sage);
+      }
+      .drawer-header h2 {
+        font-family: "Fraunces", serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--forest);
+        margin: 0;
+      }
 
-  .drawer-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
-  .cart-line { margin-bottom: 16px; display: flex; gap: 10px; }
-  .cart-line-img { width: 40px; height: 40px; border-radius: 8px; overflow: hidden; flex-shrink: 0; background: var(--cream); }
-  .cart-line-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .cart-line-content { flex: 1; min-width: 0; }
-  .cart-line-top { display: flex; align-items: baseline; font-family: 'IBM Plex Mono', monospace; font-size: 14px; }
-  .cart-line-top span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .cart-line-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
-  .remove-btn { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--tomato); }
+      .drawer-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px 20px;
+      }
+      .cart-line {
+        margin-bottom: 16px;
+        display: flex;
+        gap: 10px;
+      }
+      .cart-line-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: var(--cream);
+      }
+      .cart-line-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .cart-line-content {
+        flex: 1;
+        min-width: 0;
+      }
+      .cart-line-top {
+        display: flex;
+        align-items: baseline;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+      }
+      .cart-line-top span:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .cart-line-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 6px;
+      }
+      .remove-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: var(--tomato);
+      }
 
-  .drawer-footer { padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; background: var(--paper); }
-  .row { display: flex; justify-content: space-between; margin-bottom: 4px; }
-  .row.muted { color: var(--sage); margin-bottom: 12px; }
-  .row.total { font-size: 16px; font-weight: 600; color: var(--forest); border-top: 1px dashed var(--sage); padding-top: 10px; margin-bottom: 16px; }
-  .checkout-btn { width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; }
+      .drawer-footer {
+        padding: 16px 20px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        background: var(--paper);
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4px;
+      }
+      .row.muted {
+        color: var(--sage);
+        margin-bottom: 12px;
+      }
+      .row.total {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--forest);
+        border-top: 1px dashed var(--sage);
+        padding-top: 10px;
+        margin-bottom: 16px;
+      }
+      .checkout-btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+      }
 
-  .confirm-view { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 24px; text-align: center; }
-  .confirm-circle { width: 64px; height: 64px; border-radius: 999px; background: var(--forest); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-  .confirm-view .order-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--sage); }
-  .confirm-view h3 { font-family: 'Fraunces', serif; font-size: 20px; color: var(--forest); margin: 8px 0; }
-  .confirm-view p { font-size: 14px; margin: 0 0 24px; }
-  .empty-cart { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 24px; text-align: center; color: var(--sage); }
-  .empty-cart svg { margin-bottom: 12px; }
+      .confirm-view {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px;
+        text-align: center;
+      }
+      .confirm-circle {
+        width: 64px;
+        height: 64px;
+        border-radius: 999px;
+        background: var(--forest);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+      }
+      .confirm-view .order-num {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--sage);
+      }
+      .confirm-view h3 {
+        font-family: "Fraunces", serif;
+        font-size: 20px;
+        color: var(--forest);
+        margin: 8px 0;
+      }
+      .confirm-view p {
+        font-size: 14px;
+        margin: 0 0 24px;
+      }
+      .empty-cart {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px;
+        text-align: center;
+        color: var(--sage);
+      }
+      .empty-cart svg {
+        margin-bottom: 12px;
+      }
 
-  /* ---------- Auth ---------- */
-  .auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 16px; }
-  .auth-wrap { width: 100%; max-width: 384px; }
-  .auth-logo { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
-  .auth-logo-circle { width: 56px; height: 56px; border-radius: 999px; background: var(--forest); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
-  .auth-logo h1 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; color: var(--forest); margin: 0; }
-  .auth-logo p { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.03em; color: var(--sage); margin: 4px 0 0; }
+      /* ---------- Auth ---------- */
+      .auth-screen {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 16px;
+      }
+      .auth-wrap {
+        width: 100%;
+        max-width: 384px;
+      }
+      .auth-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      .auth-logo-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 999px;
+        background: var(--forest);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+      }
+      .auth-logo h1 {
+        font-family: "Fraunces", serif;
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--forest);
+        margin: 0;
+      }
+      .auth-logo p {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.03em;
+        color: var(--sage);
+        margin: 4px 0 0;
+      }
 
-  .auth-card { border-radius: 16px; padding: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-  .auth-toggle { display: flex; margin-bottom: 24px; border-radius: 999px; padding: 4px; background: var(--cream); }
-  .auth-toggle button { flex: 1; padding: 8px; border-radius: 999px; font-size: 14px; font-weight: 500; font-family: 'IBM Plex Mono', monospace; color: var(--forest); }
-  .auth-toggle button.active { background: var(--forest); color: var(--cream); }
+      .auth-card {
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+      .auth-toggle {
+        display: flex;
+        margin-bottom: 24px;
+        border-radius: 999px;
+        padding: 4px;
+        background: var(--cream);
+      }
+      .auth-toggle button {
+        flex: 1;
+        padding: 8px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--forest);
+      }
+      .auth-toggle button.active {
+        background: var(--forest);
+        color: var(--cream);
+      }
 
-  .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--forest); }
-  .field-group { margin-bottom: 16px; }
+      .field-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--forest);
+      }
+      .field-group {
+        margin-bottom: 16px;
+      }
 
-  .auth-error { font-size: 14px; margin-bottom: 16px; border-radius: 8px; padding: 8px 12px; background: rgba(193,68,45,0.1); color: var(--tomato); }
-  .auth-submit { width: 100%; padding: 12px; border-radius: 8px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; }
-  .auth-demo { font-family: 'IBM Plex Mono', monospace; font-size: 12px; margin-top: 16px; text-align: center; color: var(--sage); }
+      .auth-error {
+        font-size: 14px;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        padding: 8px 12px;
+        background: rgba(193, 68, 45, 0.1);
+        color: var(--tomato);
+      }
+      .auth-submit {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .auth-demo {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        margin-top: 16px;
+        text-align: center;
+        color: var(--sage);
+      }
 
-  .hidden { display: none !important; }
-</style>
-</head>
-<body>
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="bushel-root"></div>
 
-<div id="app" class="bushel-root"></div>
-
-<script>
-/* -----------------------------------------------------------
+    <script>
+      /* -----------------------------------------------------------
    SMARTBASKET — Online Grocery Frontend (vanilla HTML/CSS/JS demo)
    -----------------------------------------------------------
-   Frontend-only demo. Register/login use in-memory mock state
-   (no backend). Wire handleLogin / handleRegister / checkout
-   up to your real API when ready.
    Prices are in Bangladeshi Taka (৳).
-   Demo account: demo@smartbasket.com / demo1234
 
    Product photos are pulled from a keyword-based photo service
    (loremflickr.com) so each card shows a real photograph rather
@@ -210,136 +743,621 @@
    (e.g. from your CMS or product database) in production.
 ------------------------------------------------------------ */
 
-// ---------- Icons (minimal inline SVGs, stroke-based to match lucide style) ----------
-const ICONS = {
-  basket: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 11 4-7"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.6-7.4"/><path d="M4.5 15.5h15"/></svg>`,
-  search: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
-  plus: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`,
-  minus: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>`,
-  x: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
-  leaf: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 11 13.24 11 10"/></svg>`,
-  user: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
-  logout: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>`,
-  check: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`,
-  mail: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
-  lock: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
-  eye: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>`,
-  eyeOff: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>`,
-  trash: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>`,
-  arrowRight: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`,
-};
-function icon(name, size = 16, color = "currentColor") {
-  return (ICONS[name] || "").replaceAll("{s}", size).replaceAll("{c}", color);
-}
+      // ---------- Icons (minimal inline SVGs, stroke-based to match lucide style) ----------
+      const ICONS = {
+        basket: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 11 4-7"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.6-7.4"/><path d="M4.5 15.5h15"/></svg>`,
+        search: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
+        plus: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`,
+        minus: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>`,
+        x: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
+        leaf: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 11 13.24 11 10"/></svg>`,
+        user: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+        logout: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>`,
+        check: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`,
+        mail: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+        lock: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+        eye: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>`,
+        eyeOff: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>`,
+        trash: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>`,
+        arrowRight: `<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`,
+      };
+      function icon(name, size = 16, color = "currentColor") {
+        return (ICONS[name] || "")
+          .replaceAll("{s}", size)
+          .replaceAll("{c}", color);
+      }
 
-// ---------- Currency ----------
-function taka(amount) {
-  return "৳" + Math.round(amount).toLocaleString("en-IN");
-}
+      // ---------- Currency ----------
+      function taka(amount) {
+        return "৳" + Math.round(amount).toLocaleString("en-IN");
+      }
 
-// ---------- Data (prices in BDT) ----------
-// img: real product photo (keyword-based photo service, swap for your own CDN URLs in production)
-const PRODUCTS = [
-  // Fresh Produce
-  { id: 1, name: "Fresh Tomato", brand: "Local Farm", unit: "kg", price: 69, img: "https://www.themealdb.com/images/ingredients/Tomato.png", category: "Fresh Produce", stock: 42, popular: true },
-  { id: 2, name: "Fresh Potato", brand: "Local Farm", unit: "kg", price: 39, img: "https://www.themealdb.com/images/ingredients/Potatoes.png", category: "Fresh Produce", stock: 80, popular: true },
-  { id: 3, name: "Onion", brand: "Local Farm", unit: "kg", price: 79, img: "https://www.themealdb.com/images/ingredients/Onion.png", category: "Fresh Produce", stock: 65 },
-  { id: 4, name: "Green Chilli", brand: "Local Farm", unit: "250g", price: 29, img: "https://www.themealdb.com/images/ingredients/Green%20Chili.png", category: "Fresh Produce", stock: 35 },
-  { id: 5, name: "Carrot", brand: "Local Farm", unit: "kg", price: 89, img: "https://www.themealdb.com/images/ingredients/Carrots.png", category: "Fresh Produce", stock: 44 },
-  { id: 6, name: "Cucumber", brand: "Local Farm", unit: "kg", price: 59, img: "https://www.themealdb.com/images/ingredients/Cucumber.png", category: "Fresh Produce", stock: 38 },
-  { id: 7, name: "Cauliflower", brand: "Local Farm", unit: "piece", price: 55, img: "https://www.themealdb.com/images/ingredients/Cauliflower.png", category: "Fresh Produce", stock: 28 },
-  { id: 8, name: "Spinach", brand: "Local Farm", unit: "bunch", price: 35, img: "https://www.themealdb.com/images/ingredients/Spinach.png", category: "Fresh Produce", stock: 31 },
-  { id: 9, name: "Banana", brand: "Fresh Harvest", unit: "dozen", price: 99, img: "https://www.themealdb.com/images/ingredients/Banana.png", category: "Fresh Produce", stock: 54, popular: true },
-  { id: 10, name: "Papaya", brand: "Fresh Harvest", unit: "kg", price: 75, img: "https://www.themealdb.com/images/ingredients/Papaya.png", category: "Fresh Produce", stock: 25 },
+      // ---------- Data (prices in BDT) ----------
+      // img: real product photo (keyword-based photo service, swap for your own CDN URLs in production)
+      const PRODUCTS = [
+        // Fresh Produce
+        {
+          id: 1,
+          name: "Fresh Tomato",
+          brand: "Local Farm",
+          unit: "kg",
+          price: 69,
+          img: "https://www.themealdb.com/images/ingredients/Tomato.png",
+          category: "Fresh Produce",
+          stock: 42,
+          popular: true,
+        },
+        {
+          id: 2,
+          name: "Fresh Potato",
+          brand: "Local Farm",
+          unit: "kg",
+          price: 39,
+          img: "https://www.themealdb.com/images/ingredients/Potatoes.png",
+          category: "Fresh Produce",
+          stock: 80,
+          popular: true,
+        },
+        {
+          id: 3,
+          name: "Onion",
+          brand: "Local Farm",
+          unit: "kg",
+          price: 79,
+          img: "https://www.themealdb.com/images/ingredients/Onion.png",
+          category: "Fresh Produce",
+          stock: 65,
+        },
+        {
+          id: 4,
+          name: "Green Chilli",
+          brand: "Local Farm",
+          unit: "250g",
+          price: 29,
+          img: "https://www.themealdb.com/images/ingredients/Green%20Chili.png",
+          category: "Fresh Produce",
+          stock: 35,
+        },
+        {
+          id: 5,
+          name: "Carrot",
+          brand: "Local Farm",
+          unit: "kg",
+          price: 89,
+          img: "https://www.themealdb.com/images/ingredients/Carrots.png",
+          category: "Fresh Produce",
+          stock: 44,
+        },
+        {
+          id: 6,
+          name: "Cucumber",
+          brand: "Local Farm",
+          unit: "kg",
+          price: 59,
+          img: "https://www.themealdb.com/images/ingredients/Cucumber.png",
+          category: "Fresh Produce",
+          stock: 38,
+        },
+        {
+          id: 7,
+          name: "Cauliflower",
+          brand: "Local Farm",
+          unit: "piece",
+          price: 55,
+          img: "https://www.themealdb.com/images/ingredients/Cauliflower.png",
+          category: "Fresh Produce",
+          stock: 28,
+        },
+        {
+          id: 8,
+          name: "Spinach",
+          brand: "Local Farm",
+          unit: "bunch",
+          price: 35,
+          img: "https://www.themealdb.com/images/ingredients/Spinach.png",
+          category: "Fresh Produce",
+          stock: 31,
+        },
+        {
+          id: 9,
+          name: "Banana",
+          brand: "Fresh Harvest",
+          unit: "dozen",
+          price: 99,
+          img: "https://www.themealdb.com/images/ingredients/Banana.png",
+          category: "Fresh Produce",
+          stock: 54,
+          popular: true,
+        },
+        {
+          id: 10,
+          name: "Papaya",
+          brand: "Fresh Harvest",
+          unit: "kg",
+          price: 75,
+          img: "https://www.themealdb.com/images/ingredients/Papaya.png",
+          category: "Fresh Produce",
+          stock: 25,
+        },
 
-  // Rice, Pulses & Staples
-  { id: 11, name: "Miniket Rice", brand: "Pran", unit: "5 kg", price: 399, img: "https://www.themealdb.com/images/ingredients/Rice.png", category: "Rice & Staples", stock: 50, popular: true },
-  { id: 12, name: "Nazirshail Rice", brand: "Fresh", unit: "5 kg", price: 489, img: "https://www.themealdb.com/images/ingredients/Rice.png", category: "Rice & Staples", stock: 36 },
-  { id: 13, name: "Basmati Rice", brand: "Radhuni", unit: "1 kg", price: 229, img: "https://www.themealdb.com/images/ingredients/Basmati%20Rice.png", category: "Rice & Staples", stock: 29 },
-  { id: 14, name: "Masoor Dal", brand: "ACI Pure", unit: "1 kg", price: 139, img: "https://www.themealdb.com/images/ingredients/Lentils.png", category: "Rice & Staples", stock: 47 },
-  { id: 15, name: "Moong Dal", brand: "Pran", unit: "500g", price: 99, img: "https://www.themealdb.com/images/ingredients/Mung%20Beans.png", category: "Rice & Staples", stock: 34 },
-  { id: 16, name: "Chickpeas", brand: "Fresh", unit: "500g", price: 89, img: "https://www.themealdb.com/images/ingredients/Chickpeas.png", category: "Rice & Staples", stock: 41 },
+        // Rice, Pulses & Staples
+        {
+          id: 11,
+          name: "Miniket Rice",
+          brand: "Pran",
+          unit: "5 kg",
+          price: 399,
+          img: "https://www.themealdb.com/images/ingredients/Rice.png",
+          category: "Rice & Staples",
+          stock: 50,
+          popular: true,
+        },
+        {
+          id: 12,
+          name: "Nazirshail Rice",
+          brand: "Fresh",
+          unit: "5 kg",
+          price: 489,
+          img: "https://www.themealdb.com/images/ingredients/Rice.png",
+          category: "Rice & Staples",
+          stock: 36,
+        },
+        {
+          id: 13,
+          name: "Basmati Rice",
+          brand: "Radhuni",
+          unit: "1 kg",
+          price: 229,
+          img: "https://www.themealdb.com/images/ingredients/Basmati%20Rice.png",
+          category: "Rice & Staples",
+          stock: 29,
+        },
+        {
+          id: 14,
+          name: "Masoor Dal",
+          brand: "ACI Pure",
+          unit: "1 kg",
+          price: 139,
+          img: "https://www.themealdb.com/images/ingredients/Lentils.png",
+          category: "Rice & Staples",
+          stock: 47,
+        },
+        {
+          id: 15,
+          name: "Moong Dal",
+          brand: "Pran",
+          unit: "500g",
+          price: 99,
+          img: "https://www.themealdb.com/images/ingredients/Mung%20Beans.png",
+          category: "Rice & Staples",
+          stock: 34,
+        },
+        {
+          id: 16,
+          name: "Chickpeas",
+          brand: "Fresh",
+          unit: "500g",
+          price: 89,
+          img: "https://www.themealdb.com/images/ingredients/Chickpeas.png",
+          category: "Rice & Staples",
+          stock: 41,
+        },
 
-  // Cooking Essentials
-  { id: 17, name: "Fortune Soybean Oil", brand: "Fortune", unit: "2 liter", price: 389, img: "https://loremflickr.com/500/500/Fortune+Soybean+Oil?lock=1017", category: "Cooking Essentials", stock: 40, popular: true },
-  { id: 18, name: "Rupchanda Soybean Oil", brand: "Rupchanda", unit: "1 liter", price: 199, img: "https://loremflickr.com/500/500/Rupchanda+Soybean+Oil?lock=1018", category: "Cooking Essentials", stock: 52 },
-  { id: 19, name: "ACI Pure Salt", brand: "ACI", unit: "1 kg", price: 42, img: "https://loremflickr.com/500/500/ACI+Pure+Salt?lock=1019", category: "Cooking Essentials", stock: 70 },
-  { id: 20, name: "Fresh Sugar", brand: "Fresh", unit: "1 kg", price: 119, img: "https://loremflickr.com/500/500/Fresh+Sugar?lock=1020", category: "Cooking Essentials", stock: 60 },
-  { id: 21, name: "Radhuni Turmeric Powder", brand: "Radhuni", unit: "200g", price: 95, img: "https://loremflickr.com/500/500/Radhuni+Turmeric+Powder?lock=1021", category: "Cooking Essentials", stock: 26 },
-  { id: 22, name: "Radhuni Chilli Powder", brand: "Radhuni", unit: "200g", price: 105, img: "https://loremflickr.com/500/500/Radhuni+Chilli+Powder?lock=1022", category: "Cooking Essentials", stock: 24 },
-  { id: 23, name: "Radhuni Cumin Powder", brand: "Radhuni", unit: "100g", price: 85, img: "https://loremflickr.com/500/500/Radhuni+Cumin+Powder?lock=1023", category: "Cooking Essentials", stock: 20 },
+        // Cooking Essentials
+        {
+          id: 17,
+          name: "Fortune Soybean Oil",
+          brand: "Fortune",
+          unit: "2 liter",
+          price: 389,
+          img: "https://loremflickr.com/500/500/Fortune+Soybean+Oil?lock=1017",
+          category: "Cooking Essentials",
+          stock: 40,
+          popular: true,
+        },
+        {
+          id: 18,
+          name: "Rupchanda Soybean Oil",
+          brand: "Rupchanda",
+          unit: "1 liter",
+          price: 199,
+          img: "https://loremflickr.com/500/500/Rupchanda+Soybean+Oil?lock=1018",
+          category: "Cooking Essentials",
+          stock: 52,
+        },
+        {
+          id: 19,
+          name: "ACI Pure Salt",
+          brand: "ACI",
+          unit: "1 kg",
+          price: 42,
+          img: "https://loremflickr.com/500/500/ACI+Pure+Salt?lock=1019",
+          category: "Cooking Essentials",
+          stock: 70,
+        },
+        {
+          id: 20,
+          name: "Fresh Sugar",
+          brand: "Fresh",
+          unit: "1 kg",
+          price: 119,
+          img: "https://loremflickr.com/500/500/Fresh+Sugar?lock=1020",
+          category: "Cooking Essentials",
+          stock: 60,
+        },
+        {
+          id: 21,
+          name: "Radhuni Turmeric Powder",
+          brand: "Radhuni",
+          unit: "200g",
+          price: 95,
+          img: "https://loremflickr.com/500/500/Radhuni+Turmeric+Powder?lock=1021",
+          category: "Cooking Essentials",
+          stock: 26,
+        },
+        {
+          id: 22,
+          name: "Radhuni Chilli Powder",
+          brand: "Radhuni",
+          unit: "200g",
+          price: 105,
+          img: "https://loremflickr.com/500/500/Radhuni+Chilli+Powder?lock=1022",
+          category: "Cooking Essentials",
+          stock: 24,
+        },
+        {
+          id: 23,
+          name: "Radhuni Cumin Powder",
+          brand: "Radhuni",
+          unit: "100g",
+          price: 85,
+          img: "https://loremflickr.com/500/500/Radhuni+Cumin+Powder?lock=1023",
+          category: "Cooking Essentials",
+          stock: 20,
+        },
 
-  // Dairy & Eggs
-  { id: 24, name: "Farm Fresh Eggs", brand: "Local Farm", unit: "12 pcs", price: 149, img: "https://www.themealdb.com/images/ingredients/Eggs.png", category: "Dairy & Eggs", stock: 46, popular: true },
-  { id: 25, name: "Aarong Dairy Milk", brand: "Aarong Dairy", unit: "1 liter", price: 110, img: "https://www.themealdb.com/images/ingredients/Milk.png", category: "Dairy & Eggs", stock: 30 },
-  { id: 26, name: "Pran UHT Milk", brand: "Pran", unit: "1 liter", price: 105, img: "https://www.themealdb.com/images/ingredients/Milk.png", category: "Dairy & Eggs", stock: 33, sale: true, originalPrice: 115 },
-  { id: 27, name: "Aarong Dairy Yogurt", brand: "Aarong Dairy", unit: "500g", price: 95, img: "https://www.themealdb.com/images/ingredients/Yogurt.png", category: "Dairy & Eggs", stock: 18 },
-  { id: 28, name: "Processed Cheese", brand: "Arla", unit: "200g", price: 285, img: "https://www.themealdb.com/images/ingredients/Cheese.png", category: "Dairy & Eggs", stock: 15 },
+        // Dairy & Eggs
+        {
+          id: 24,
+          name: "Farm Fresh Eggs",
+          brand: "Local Farm",
+          unit: "12 pcs",
+          price: 149,
+          img: "https://www.themealdb.com/images/ingredients/Eggs.png",
+          category: "Dairy & Eggs",
+          stock: 46,
+          popular: true,
+        },
+        {
+          id: 25,
+          name: "Aarong Dairy Milk",
+          brand: "Aarong Dairy",
+          unit: "1 liter",
+          price: 110,
+          img: "https://www.themealdb.com/images/ingredients/Milk.png",
+          category: "Dairy & Eggs",
+          stock: 30,
+        },
+        {
+          id: 26,
+          name: "Pran UHT Milk",
+          brand: "Pran",
+          unit: "1 liter",
+          price: 105,
+          img: "https://www.themealdb.com/images/ingredients/Milk.png",
+          category: "Dairy & Eggs",
+          stock: 33,
+          sale: true,
+          originalPrice: 115,
+        },
+        {
+          id: 27,
+          name: "Aarong Dairy Yogurt",
+          brand: "Aarong Dairy",
+          unit: "500g",
+          price: 95,
+          img: "https://www.themealdb.com/images/ingredients/Yogurt.png",
+          category: "Dairy & Eggs",
+          stock: 18,
+        },
+        {
+          id: 28,
+          name: "Processed Cheese",
+          brand: "Arla",
+          unit: "200g",
+          price: 285,
+          img: "https://www.themealdb.com/images/ingredients/Cheese.png",
+          category: "Dairy & Eggs",
+          stock: 15,
+        },
 
-  // Meat & Fish
-  { id: 29, name: "Broiler Chicken", brand: "Fresh Meat", unit: "kg", price: 249, img: "https://www.themealdb.com/images/ingredients/Chicken.png", category: "Meat & Fish", stock: 22, popular: true },
-  { id: 30, name: "Beef Curry Cut", brand: "Fresh Meat", unit: "kg", price: 799, img: "https://www.themealdb.com/images/ingredients/Beef.png", category: "Meat & Fish", stock: 16 },
-  { id: 31, name: "Rui Fish", brand: "Fresh Catch", unit: "kg", price: 399, img: "https://www.themealdb.com/images/ingredients/Rohu%20Fish.png", category: "Meat & Fish", stock: 13 },
-  { id: 32, name: "Hilsa Fish", brand: "Fresh Catch", unit: "kg", price: 1299, img: "https://www.themealdb.com/images/ingredients/Hilsa%20Fish.png", category: "Meat & Fish", stock: 8, sale: true, originalPrice: 1399 },
+        // Meat & Fish
+        {
+          id: 29,
+          name: "Broiler Chicken",
+          brand: "Fresh Meat",
+          unit: "kg",
+          price: 249,
+          img: "https://www.themealdb.com/images/ingredients/Chicken.png",
+          category: "Meat & Fish",
+          stock: 22,
+          popular: true,
+        },
+        {
+          id: 30,
+          name: "Beef Curry Cut",
+          brand: "Fresh Meat",
+          unit: "kg",
+          price: 799,
+          img: "https://www.themealdb.com/images/ingredients/Beef.png",
+          category: "Meat & Fish",
+          stock: 16,
+        },
+        {
+          id: 31,
+          name: "Rui Fish",
+          brand: "Fresh Catch",
+          unit: "kg",
+          price: 399,
+          img: "https://www.themealdb.com/images/ingredients/Rohu%20Fish.png",
+          category: "Meat & Fish",
+          stock: 13,
+        },
+        {
+          id: 32,
+          name: "Hilsa Fish",
+          brand: "Fresh Catch",
+          unit: "kg",
+          price: 1299,
+          img: "https://www.themealdb.com/images/ingredients/Hilsa%20Fish.png",
+          category: "Meat & Fish",
+          stock: 8,
+          sale: true,
+          originalPrice: 1399,
+        },
 
-  // Snacks & Biscuits
-  { id: 33, name: "Pran Potato Crackers", brand: "Pran", unit: "100g", price: 35, img: "https://www.themealdb.com/images/ingredients/Potato%20Chips.png", category: "Snacks & Biscuits", stock: 45 },
-  { id: 34, name: "Olympic Energy Plus", brand: "Olympic", unit: "150g", price: 45, img: "https://www.themealdb.com/images/ingredients/Biscuits.png", category: "Snacks & Biscuits", stock: 64, popular: true },
-  { id: 35, name: "Toast Biscuit", brand: "Olympic", unit: "250g", price: 65, img: "https://www.themealdb.com/images/ingredients/Biscuits.png", category: "Snacks & Biscuits", stock: 38 },
-  { id: 36, name: "Chocolate Wafer", brand: "Pran", unit: "45g", price: 25, img: "https://www.themealdb.com/images/ingredients/Chocolate.png", category: "Snacks & Biscuits", stock: 50 },
+        // Snacks & Biscuits
+        {
+          id: 33,
+          name: "Pran Potato Crackers",
+          brand: "Pran",
+          unit: "100g",
+          price: 35,
+          img: "https://www.themealdb.com/images/ingredients/Potato%20Chips.png",
+          category: "Snacks & Biscuits",
+          stock: 45,
+        },
+        {
+          id: 34,
+          name: "Olympic Energy Plus",
+          brand: "Olympic",
+          unit: "150g",
+          price: 45,
+          img: "https://www.themealdb.com/images/ingredients/Biscuits.png",
+          category: "Snacks & Biscuits",
+          stock: 64,
+          popular: true,
+        },
+        {
+          id: 35,
+          name: "Toast Biscuit",
+          brand: "Olympic",
+          unit: "250g",
+          price: 65,
+          img: "https://www.themealdb.com/images/ingredients/Biscuits.png",
+          category: "Snacks & Biscuits",
+          stock: 38,
+        },
+        {
+          id: 36,
+          name: "Chocolate Wafer",
+          brand: "Pran",
+          unit: "45g",
+          price: 25,
+          img: "https://www.themealdb.com/images/ingredients/Chocolate.png",
+          category: "Snacks & Biscuits",
+          stock: 50,
+        },
 
-  // Beverages
-  { id: 37, name: "Nescafé Classic", brand: "Nescafé", unit: "100g", price: 299, img: "https://www.themealdb.com/images/ingredients/Coffee.png", category: "Beverages", stock: 27 },
-  { id: 38, name: "Ispahani Mirzapore Tea", brand: "Ispahani", unit: "400g", price: 219, img: "https://www.themealdb.com/images/ingredients/Tea.png", category: "Beverages", stock: 32, popular: true },
-  { id: 39, name: "Mango Juice", brand: "Frutika", unit: "1 liter", price: 135, img: "https://www.themealdb.com/images/ingredients/Mango.png", category: "Beverages", stock: 29, sale: true, originalPrice: 150 },
-  { id: 40, name: "Mineral Water", brand: "Mum", unit: "2 liter", price: 40, img: "https://www.themealdb.com/images/ingredients/Water.png", category: "Beverages", stock: 75 },
+        // Beverages
+        {
+          id: 37,
+          name: "Nescafé Classic",
+          brand: "Nescafé",
+          unit: "100g",
+          price: 299,
+          img: "https://www.themealdb.com/images/ingredients/Coffee.png",
+          category: "Beverages",
+          stock: 27,
+        },
+        {
+          id: 38,
+          name: "Ispahani Mirzapore Tea",
+          brand: "Ispahani",
+          unit: "400g",
+          price: 219,
+          img: "https://www.themealdb.com/images/ingredients/Tea.png",
+          category: "Beverages",
+          stock: 32,
+          popular: true,
+        },
+        {
+          id: 39,
+          name: "Mango Juice",
+          brand: "Frutika",
+          unit: "1 liter",
+          price: 135,
+          img: "https://www.themealdb.com/images/ingredients/Mango.png",
+          category: "Beverages",
+          stock: 29,
+          sale: true,
+          originalPrice: 150,
+        },
+        {
+          id: 40,
+          name: "Mineral Water",
+          brand: "Mum",
+          unit: "2 liter",
+          price: 40,
+          img: "https://www.themealdb.com/images/ingredients/Water.png",
+          category: "Beverages",
+          stock: 75,
+        },
 
-  // Bakery
-  { id: 41, name: "White Bread", brand: "Danish", unit: "500g", price: 75, img: "https://www.themealdb.com/images/ingredients/Bread.png", category: "Bakery", stock: 24, popular: true },
-  { id: 42, name: "Burger Bun", brand: "Danish", unit: "4 pcs", price: 85, img: "https://www.themealdb.com/images/ingredients/Burger%20Bun.png", category: "Bakery", stock: 19 },
-  { id: 43, name: "Chocolate Cake", brand: "Well Food", unit: "500g", price: 450, img: "https://www.themealdb.com/images/ingredients/Chocolate%20Cake.png", category: "Bakery", stock: 7, sale: true, originalPrice: 500 },
+        // Bakery
+        {
+          id: 41,
+          name: "White Bread",
+          brand: "Danish",
+          unit: "500g",
+          price: 75,
+          img: "https://www.themealdb.com/images/ingredients/Bread.png",
+          category: "Bakery",
+          stock: 24,
+          popular: true,
+        },
+        {
+          id: 42,
+          name: "Burger Bun",
+          brand: "Danish",
+          unit: "4 pcs",
+          price: 85,
+          img: "https://www.themealdb.com/images/ingredients/Burger%20Bun.png",
+          category: "Bakery",
+          stock: 19,
+        },
+        {
+          id: 43,
+          name: "Chocolate Cake",
+          brand: "Well Food",
+          unit: "500g",
+          price: 450,
+          img: "https://www.themealdb.com/images/ingredients/Chocolate%20Cake.png",
+          category: "Bakery",
+          stock: 7,
+          sale: true,
+          originalPrice: 500,
+        },
 
-  // Household
-  { id: 44, name: "Wheel Washing Powder", brand: "Wheel", unit: "500g", price: 85, img: "https://loremflickr.com/500/500/Wheel+Washing+Powder?lock=1044", category: "Household", stock: 35 },
-  { id: 45, name: "Vim Dishwashing Liquid", brand: "Vim", unit: "500ml", price: 110, img: "https://loremflickr.com/500/500/Vim+Dishwashing+Liquid?lock=1045", category: "Household", stock: 28 },
-  { id: 46, name: "Dettol Handwash", brand: "Dettol", unit: "200ml", price: 125, img: "https://loremflickr.com/500/500/Dettol+Handwash?lock=1046", category: "Household", stock: 21 },
-  { id: 47, name: "Tissue Box", brand: "Bashundhara", unit: "100 pulls", price: 85, img: "https://loremflickr.com/500/500/Tissue+Box?lock=1047", category: "Household", stock: 43 },
+        // Household
+        {
+          id: 44,
+          name: "Wheel Washing Powder",
+          brand: "Wheel",
+          unit: "500g",
+          price: 85,
+          img: "https://loremflickr.com/500/500/Wheel+Washing+Powder?lock=1044",
+          category: "Household",
+          stock: 35,
+        },
+        {
+          id: 45,
+          name: "Vim Dishwashing Liquid",
+          brand: "Vim",
+          unit: "500ml",
+          price: 110,
+          img: "https://loremflickr.com/500/500/Vim+Dishwashing+Liquid?lock=1045",
+          category: "Household",
+          stock: 28,
+        },
+        {
+          id: 46,
+          name: "Dettol Handwash",
+          brand: "Dettol",
+          unit: "200ml",
+          price: 125,
+          img: "https://loremflickr.com/500/500/Dettol+Handwash?lock=1046",
+          category: "Household",
+          stock: 21,
+        },
+        {
+          id: 47,
+          name: "Tissue Box",
+          brand: "Bashundhara",
+          unit: "100 pulls",
+          price: 85,
+          img: "https://loremflickr.com/500/500/Tissue+Box?lock=1047",
+          category: "Household",
+          stock: 43,
+        },
 
-  // Personal Care
-  { id: 48, name: "Sunsilk Shampoo", brand: "Sunsilk", unit: "340ml", price: 349, img: "https://loremflickr.com/500/500/Sunsilk+Shampoo?lock=1048", category: "Personal Care", stock: 17 },
-  { id: 49, name: "Lux Body Wash", brand: "Lux", unit: "250ml", price: 229, img: "https://loremflickr.com/500/500/Lux+Body+Wash?lock=1049", category: "Personal Care", stock: 20 },
-  { id: 50, name: "Closeup Toothpaste", brand: "Closeup", unit: "150g", price: 145, img: "https://loremflickr.com/500/500/Closeup+Toothpaste?lock=1050", category: "Personal Care", stock: 33, sale: true, originalPrice: 160 }
-];
+        // Personal Care
+        {
+          id: 48,
+          name: "Sunsilk Shampoo",
+          brand: "Sunsilk",
+          unit: "340ml",
+          price: 349,
+          img: "https://loremflickr.com/500/500/Sunsilk+Shampoo?lock=1048",
+          category: "Personal Care",
+          stock: 17,
+        },
+        {
+          id: 49,
+          name: "Lux Body Wash",
+          brand: "Lux",
+          unit: "250ml",
+          price: 229,
+          img: "https://loremflickr.com/500/500/Lux+Body+Wash?lock=1049",
+          category: "Personal Care",
+          stock: 20,
+        },
+        {
+          id: 50,
+          name: "Closeup Toothpaste",
+          brand: "Closeup",
+          unit: "150g",
+          price: 145,
+          img: "https://loremflickr.com/500/500/Closeup+Toothpaste?lock=1050",
+          category: "Personal Care",
+          stock: 33,
+          sale: true,
+          originalPrice: 160,
+        },
+      ];
 
-const CATEGORIES = ["All", "Fresh Produce", "Rice & Staples", "Cooking Essentials", "Dairy & Eggs", "Meat & Fish", "Snacks & Biscuits", "Beverages", "Bakery", "Household", "Personal Care"];
-const DELIVERY_FEE = 60;
+      const CATEGORIES = [
+        "All",
+        "Fresh Produce",
+        "Rice & Staples",
+        "Cooking Essentials",
+        "Dairy & Eggs",
+        "Meat & Fish",
+        "Snacks & Biscuits",
+        "Beverages",
+        "Bakery",
+        "Household",
+        "Personal Care",
+      ];
+      const DELIVERY_FEE = 60;
 
-// ---------- App state ----------
-const state = {
-  users: [{ name: "Demo Shopper", email: "demo@smartbasket.com", password: "demo1234" }],
-  currentUser: null,
-  authMode: "login",
-  authError: "",
-  showPassword: false,
-  activeCategory: "All",
-  search: "",
-  cart: {},       // { productId: qty }
-  cartOpen: false,
-  orderPlaced: false,
-  orderNumber: null,
-};
+      // ---------- App state ----------
+      const AUTH_TOKEN_KEY = "token";
 
-const root = document.getElementById("app");
+      const state = {
+        currentUser: null,
+        authMode: "login",
+        authError: "",
+        showPassword: false,
+        activeCategory: "All",
+        search: "",
+        cart: {}, // { productId: qty }
+        cartOpen: false,
+        orderPlaced: false,
+        orderNumber: null,
+      };
 
-function render() {
-  root.innerHTML = state.currentUser ? renderShop() : renderAuth();
-  attachEvents();
-}
+      const root = document.getElementById("app");
 
-// ---------- Auth screen ----------
-function renderAuth() {
-  const isLogin = state.authMode === "login";
-  return `
+      function render() {
+        root.innerHTML = state.currentUser ? renderShop() : renderAuth();
+        attachEvents();
+      }
+
+      // ---------- Auth screen ----------
+      function renderAuth() {
+        const isLogin = state.authMode === "login";
+        return `
     <div class="auth-screen">
       <div class="auth-wrap">
         <div class="auth-logo">
@@ -355,14 +1373,18 @@ function renderAuth() {
           </div>
 
           <form id="auth-form">
-            ${!isLogin ? `
+            ${
+              !isLogin
+                ? `
             <div class="field-group">
               <label class="field-label">Full name</label>
               <div class="field-input">
                 ${icon("user", 16, "var(--sage)")}
                 <input id="f-name" type="text" placeholder="Jane Appleseed" />
               </div>
-            </div>` : ""}
+            </div>`
+                : ""
+            }
 
             <div class="field-group">
               <label class="field-label">Email</label>
@@ -389,24 +1411,25 @@ function renderAuth() {
               ${isLogin ? "Log in" : "Create account"} ${icon("arrowRight", 16, "var(--cream)")}
             </button>
           </form>
-
-          ${isLogin ? `<p class="auth-demo">demo@smartbasket.com / demo1234</p>` : ""}
         </div>
       </div>
     </div>
   `;
-}
+      }
 
-// ---------- Shop screen ----------
-function getCartItems() {
-  return Object.entries(state.cart)
-    .map(([id, qty]) => ({ product: PRODUCTS.find((p) => p.id === Number(id)), qty }))
-    .filter((i) => i.product);
-}
+      // ---------- Shop screen ----------
+      function getCartItems() {
+        return Object.entries(state.cart)
+          .map(([id, qty]) => ({
+            product: PRODUCTS.find((p) => p.id === Number(id)),
+            qty,
+          }))
+          .filter((i) => i.product);
+      }
 
-function renderProductCard(p) {
-  const qty = state.cart[p.id] || 0;
-  return `
+      function renderProductCard(p) {
+        const qty = state.cart[p.id] || 0;
+        return `
     <div class="product-card paper-card">
       <div class="product-image-wrap">
         <img src="${p.img}" alt="${escapeHtml(p.name)}" loading="lazy"
@@ -425,29 +1448,36 @@ function renderProductCard(p) {
           ${p.sale ? `<span class="bushel-mono" style="font-size:12px;color:var(--sage);text-decoration:line-through;">${taka(p.originalPrice)}</span>` : ""}
         </div>
         ${p.stock <= 10 ? `<span class="stock-note low">Only ${p.stock} left</span>` : ""}
-        ${qty > 0 ? `
+        ${
+          qty > 0
+            ? `
           <div class="stepper">
             <button data-action="dec" data-id="${p.id}" aria-label="Decrease">${icon("minus", 14, "var(--forest)")}</button>
             <span>${qty}</span>
             <button data-action="inc" data-id="${p.id}" aria-label="Increase">${icon("plus", 14, "var(--forest)")}</button>
           </div>
-        ` : `
+        `
+            : `
           <button class="add-btn" data-action="add" data-id="${p.id}" aria-label="Add to cart">${icon("plus", 16, "var(--cream)")}</button>
-        `}
+        `
+        }
       </div>
     </div>
   `;
-}
+      }
 
-function renderCartDrawer() {
-  const items = getCartItems();
-  const subtotal = items.reduce((sum, i) => sum + i.qty * i.product.price, 0);
-  const deliveryFee = subtotal > 0 ? DELIVERY_FEE : 0;
-  const total = subtotal + deliveryFee;
+      function renderCartDrawer() {
+        const items = getCartItems();
+        const subtotal = items.reduce(
+          (sum, i) => sum + i.qty * i.product.price,
+          0,
+        );
+        const deliveryFee = subtotal > 0 ? DELIVERY_FEE : 0;
+        const total = subtotal + deliveryFee;
 
-  let body;
-  if (state.orderPlaced) {
-    body = `
+        let body;
+        if (state.orderPlaced) {
+          body = `
       <div class="confirm-view">
         <div class="confirm-circle">${icon("check", 28, "var(--cream)")}</div>
         <p class="order-num bushel-mono">Order #${state.orderNumber}</p>
@@ -456,17 +1486,19 @@ function renderCartDrawer() {
         <button class="btn-primary" data-action="continue-shopping" style="padding:10px 20px;border-radius:8px;font-weight:500;">Continue shopping</button>
       </div>
     `;
-  } else if (items.length === 0) {
-    body = `
+        } else if (items.length === 0) {
+          body = `
       <div class="empty-cart">
         ${icon("basket", 36, "var(--sage)")}
         <p>Your basket is empty. Add something fresh.</p>
       </div>
     `;
-  } else {
-    body = `
+        } else {
+          body = `
       <div class="drawer-body">
-        ${items.map(({ product, qty }) => `
+        ${items
+          .map(
+            ({ product, qty }) => `
           <div class="cart-line">
             <div class="cart-line-img"><img src="${product.img}" alt="${escapeHtml(product.name)}" loading="lazy" /></div>
             <div class="cart-line-content">
@@ -485,7 +1517,9 @@ function renderCartDrawer() {
               </div>
             </div>
           </div>
-        `).join("")}
+        `,
+          )
+          .join("")}
       </div>
       <div class="receipt-tear"></div>
       <div class="drawer-footer">
@@ -495,9 +1529,9 @@ function renderCartDrawer() {
         <button class="btn-gold checkout-btn" data-action="checkout">Complete order</button>
       </div>
     `;
-  }
+        }
 
-  return `
+        return `
     <div class="drawer-backdrop ${state.cartOpen ? "open" : ""}" data-action="close-cart"></div>
     <aside class="cart-drawer ${state.cartOpen ? "open" : ""}">
       <div class="drawer-inner paper-card">
@@ -509,17 +1543,21 @@ function renderCartDrawer() {
       </div>
     </aside>
   `;
-}
+      }
 
-function renderShop() {
-  const filtered = PRODUCTS.filter((p) => {
-    const matchesCategory = state.activeCategory === "All" || p.category === state.activeCategory;
-    const matchesSearch = p.name.toLowerCase().includes(state.search.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-  const itemCount = getCartItems().reduce((sum, i) => sum + i.qty, 0);
+      function renderShop() {
+        const filtered = PRODUCTS.filter((p) => {
+          const matchesCategory =
+            state.activeCategory === "All" ||
+            p.category === state.activeCategory;
+          const matchesSearch = p.name
+            .toLowerCase()
+            .includes(state.search.toLowerCase());
+          return matchesCategory && matchesSearch;
+        });
+        const itemCount = getCartItems().reduce((sum, i) => sum + i.qty, 0);
 
-  return `
+        return `
     <header class="app-header">
       <div class="header-inner">
         <div class="logo">${icon("basket", 22, "var(--cream)")}<span class="bushel-display">SmartBasket</span></div>
@@ -540,158 +1578,267 @@ function renderShop() {
 
     <div class="container">
       <div class="category-row">
-        ${CATEGORIES.map((cat, i) => `
+        ${CATEGORIES.map(
+          (cat, i) => `
           <button class="crate-tab ${state.activeCategory === cat ? "active" : ""}"
                   data-action="set-category" data-cat="${escapeHtml(cat)}"
                   style="transform:rotate(${i % 2 === 0 ? "-1deg" : "1deg"});">
             ${escapeHtml(cat)}
           </button>
-        `).join("")}
+        `,
+        ).join("")}
       </div>
     </div>
 
     <main class="shop-main">
       <div class="container">
-        ${filtered.length === 0 ? `
+        ${
+          filtered.length === 0
+            ? `
           <div class="empty-state">
             <h3>Nothing matches "${escapeHtml(state.search)}"</h3>
             <p>Try another search or browse a different category.</p>
           </div>
-        ` : `
+        `
+            : `
           <div class="product-grid">
             ${filtered.map(renderProductCard).join("")}
           </div>
-        `}
+        `
+        }
       </div>
     </main>
 
     ${renderCartDrawer()}
   `;
-}
-
-// ---------- Helpers ----------
-function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}
-
-// ---------- Actions ----------
-function login(email, password) {
-  const found = state.users.find((u) => u.email === email && u.password === password);
-  if (!found) {
-    state.authError = "We couldn't find an account with that email and password.";
-    render();
-    return;
-  }
-  state.authError = "";
-  state.currentUser = found;
-  render();
-}
-
-function register(name, email, password) {
-  if (!name || !email || !password) {
-    state.authError = "Please fill in your name, email, and password.";
-    render();
-    return;
-  }
-  if (state.users.some((u) => u.email === email)) {
-    state.authError = "An account with that email already exists.";
-    render();
-    return;
-  }
-  const newUser = { name, email, password };
-  state.users.push(newUser);
-  state.authError = "";
-  state.currentUser = newUser;
-  render();
-}
-
-function logout() {
-  state.currentUser = null;
-  state.cart = {};
-  state.cartOpen = false;
-  state.orderPlaced = false;
-  state.authMode = "login";
-  render();
-}
-
-function addToCart(id) { state.cart[id] = 1; render(); }
-function incQty(id) { state.cart[id] = (state.cart[id] || 0) + 1; render(); }
-function decQty(id) {
-  const q = (state.cart[id] || 0) - 1;
-  if (q <= 0) delete state.cart[id];
-  else state.cart[id] = q;
-  render();
-}
-function removeItem(id) { delete state.cart[id]; render(); }
-
-function checkout() {
-  if (getCartItems().length === 0) return;
-  state.orderNumber = Math.floor(1000 + Math.random() * 9000);
-  state.orderPlaced = true;
-  render();
-}
-function continueShopping() {
-  state.cart = {};
-  state.orderPlaced = false;
-  state.cartOpen = false;
-  render();
-}
-
-// ---------- Event wiring (delegated, re-attached after each render) ----------
-function attachEvents() {
-  root.querySelectorAll("[data-action]").forEach((el) => {
-    const action = el.getAttribute("data-action");
-    const id = el.getAttribute("data-id") ? Number(el.getAttribute("data-id")) : null;
-
-    switch (action) {
-      case "set-mode":
-        el.addEventListener("click", () => { state.authMode = el.getAttribute("data-mode"); state.authError = ""; render(); });
-        break;
-      case "toggle-pw":
-        el.addEventListener("click", () => { state.showPassword = !state.showPassword; render(); });
-        break;
-      case "set-category":
-        el.addEventListener("click", () => { state.activeCategory = el.getAttribute("data-cat"); render(); });
-        break;
-      case "add": el.addEventListener("click", () => addToCart(id)); break;
-      case "inc": el.addEventListener("click", () => incQty(id)); break;
-      case "dec": el.addEventListener("click", () => decQty(id)); break;
-      case "remove": el.addEventListener("click", () => removeItem(id)); break;
-      case "open-cart": el.addEventListener("click", () => { state.cartOpen = true; render(); }); break;
-      case "close-cart": el.addEventListener("click", () => { state.cartOpen = false; render(); }); break;
-      case "checkout": el.addEventListener("click", checkout); break;
-      case "continue-shopping": el.addEventListener("click", continueShopping); break;
-      case "logout": el.addEventListener("click", logout); break;
-    }
-  });
-
-  const searchInput = document.getElementById("search-input");
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      state.search = e.target.value;
-      const caret = e.target.selectionStart;
-      render();
-      const newInput = document.getElementById("search-input");
-      if (newInput) { newInput.focus(); newInput.setSelectionRange(caret, caret); }
-    });
-  }
-  const authForm = document.getElementById("auth-form");
-  if (authForm) {
-    authForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("f-email").value.trim();
-      const password = document.getElementById("f-password").value;
-      if (state.authMode === "login") {
-        login(email, password);
-      } else {
-        const name = document.getElementById("f-name").value.trim();
-        register(name, email, password);
       }
-    });
-  }
-}
 
-render();
-</script>
-</body>
+      // ---------- Helpers ----------
+      function escapeHtml(str) {
+        return String(str).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+
+      // ---------- Actions ----------
+      async function login(email, password) {
+        if (!email || !password) {
+          state.authError = "Please enter your email and password.";
+          render();
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:5000/api/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(data.message || "Login failed.");
+          }
+
+          if (data.token) {
+            localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+          }
+
+          state.authError = "";
+          state.currentUser = data.user || null;
+          render();
+        } catch (error) {
+          state.authError = error.message || "Unable to log in right now.";
+          render();
+        }
+      }
+
+      async function register(name, email, password) {
+        if (!name || !email || !password) {
+          state.authError = "Please fill in your name, email, and password.";
+          render();
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            "http://localhost:5000/api/auth/register",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ name, email, password }),
+            },
+          );
+
+          const data = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(data.message || "Registration failed.");
+          }
+
+          if (data.token) {
+            localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+          }
+
+          state.authError = "";
+          state.currentUser = data.user || null;
+          render();
+        } catch (error) {
+          state.authError =
+            error.message || "Unable to create your account right now.";
+          render();
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        state.currentUser = null;
+        state.cart = {};
+        state.cartOpen = false;
+        state.orderPlaced = false;
+        state.authMode = "login";
+        render();
+      }
+
+      function addToCart(id) {
+        state.cart[id] = 1;
+        render();
+      }
+      function incQty(id) {
+        state.cart[id] = (state.cart[id] || 0) + 1;
+        render();
+      }
+      function decQty(id) {
+        const q = (state.cart[id] || 0) - 1;
+        if (q <= 0) delete state.cart[id];
+        else state.cart[id] = q;
+        render();
+      }
+      function removeItem(id) {
+        delete state.cart[id];
+        render();
+      }
+
+      function checkout() {
+        if (getCartItems().length === 0) return;
+        state.orderNumber = Math.floor(1000 + Math.random() * 9000);
+        state.orderPlaced = true;
+        render();
+      }
+      function continueShopping() {
+        state.cart = {};
+        state.orderPlaced = false;
+        state.cartOpen = false;
+        render();
+      }
+
+      // ---------- Event wiring (delegated, re-attached after each render) ----------
+      function attachEvents() {
+        root.querySelectorAll("[data-action]").forEach((el) => {
+          const action = el.getAttribute("data-action");
+          const id = el.getAttribute("data-id")
+            ? Number(el.getAttribute("data-id"))
+            : null;
+
+          switch (action) {
+            case "set-mode":
+              el.addEventListener("click", () => {
+                state.authMode = el.getAttribute("data-mode");
+                state.authError = "";
+                render();
+              });
+              break;
+            case "toggle-pw":
+              el.addEventListener("click", () => {
+                state.showPassword = !state.showPassword;
+                render();
+              });
+              break;
+            case "set-category":
+              el.addEventListener("click", () => {
+                state.activeCategory = el.getAttribute("data-cat");
+                render();
+              });
+              break;
+            case "add":
+              el.addEventListener("click", () => addToCart(id));
+              break;
+            case "inc":
+              el.addEventListener("click", () => incQty(id));
+              break;
+            case "dec":
+              el.addEventListener("click", () => decQty(id));
+              break;
+            case "remove":
+              el.addEventListener("click", () => removeItem(id));
+              break;
+            case "open-cart":
+              el.addEventListener("click", () => {
+                state.cartOpen = true;
+                render();
+              });
+              break;
+            case "close-cart":
+              el.addEventListener("click", () => {
+                state.cartOpen = false;
+                render();
+              });
+              break;
+            case "checkout":
+              el.addEventListener("click", checkout);
+              break;
+            case "continue-shopping":
+              el.addEventListener("click", continueShopping);
+              break;
+            case "logout":
+              el.addEventListener("click", logout);
+              break;
+          }
+        });
+
+        const searchInput = document.getElementById("search-input");
+        if (searchInput) {
+          searchInput.addEventListener("input", (e) => {
+            state.search = e.target.value;
+            const caret = e.target.selectionStart;
+            render();
+            const newInput = document.getElementById("search-input");
+            if (newInput) {
+              newInput.focus();
+              newInput.setSelectionRange(caret, caret);
+            }
+          });
+        }
+        const authForm = document.getElementById("auth-form");
+        if (authForm) {
+          authForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("f-email").value.trim();
+            const password = document.getElementById("f-password").value;
+            if (state.authMode === "login") {
+              login(email, password);
+            } else {
+              const name = document.getElementById("f-name").value.trim();
+              register(name, email, password);
+            }
+          });
+        }
+      }
+
+      render();
+    </script>
+  </body>
 </html>
