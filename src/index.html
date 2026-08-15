@@ -16,7 +16,7 @@
         --cream: #f0ead6;
         --paper: #faf6ea;
         --gold: #d4a017;
-        --tomato: #c1442d;
+        --tomato: #93220e;
         --sage: #8fa88c;
         --charcoal: #2b2b26;
       }
@@ -1652,12 +1652,42 @@
           }
 
           if (data.token) {
-            localStorage.setItem(AUTH_TOKEN_KEY, data.token);
-          }
 
-          state.authError = "";
-          state.currentUser = data.user || null;
-          render();
+    localStorage.setItem(
+        AUTH_TOKEN_KEY,
+        data.token
+    );
+
+}
+
+state.authError = "";
+
+state.currentUser =
+    data.user || null;
+
+
+// Save user information
+localStorage.setItem(
+    "user",
+    JSON.stringify(data.user)
+);
+
+
+// Admin redirect
+if (
+    data.user &&
+    data.user.role === "admin"
+) {
+
+    window.location.href =
+        "../admin/dashboard.html";
+
+    return;
+}
+
+
+// Normal user
+render();
         } catch (error) {
           state.authError = error.message || "Unable to log in right now.";
           render();

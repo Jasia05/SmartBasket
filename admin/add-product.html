@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Product - SmartBasket</title>
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            🛒 SmartBasket
+
+            <span>
+                Admin Panel
+            </span>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+
+            <a href="products.html">
+                🛍️ Products
+            </a>
+
+
+            <a
+                href="add-product.html"
+                class="active"
+            >
+                ➕ Add Product
+            </a>
+
+
+            <a href="#">
+                📦 Orders
+            </a>
+
+
+            <a href="#">
+                👥 Users
+            </a>
+
+        </nav>
+
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            🚪 Logout
+        </button>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>
+                    Add Product
+                </h1>
+
+                <p>
+                    Add a new grocery item
+                </p>
+
+            </div>
+
+
+            <div class="admin-info">
+
+                👤
+                <span id="adminEmail">
+                    Admin
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="content-card">
+
+
+            <form
+                id="addProductForm"
+                class="product-form"
+            >
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Product Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Fresh Tomato"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Brand
+                        </label>
+
+                        <input
+                            type="text"
+                            id="brand"
+                            placeholder="Local Farm"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select
+                            id="category"
+                            required
+                        >
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option value="Fresh Produce">
+                                Fresh Produce
+                            </option>
+
+                            <option value="Rice & Staples">
+                                Rice & Staples
+                            </option>
+
+                            <option value="Cooking Essentials">
+                                Cooking Essentials
+                            </option>
+
+                            <option value="Dairy & Eggs">
+                                Dairy & Eggs
+                            </option>
+
+                            <option value="Meat & Fish">
+                                Meat & Fish
+                            </option>
+
+                            <option value="Snacks & Biscuits">
+                                Snacks & Biscuits
+                            </option>
+
+                            <option value="Beverages">
+                                Beverages
+                            </option>
+
+                            <option value="Bakery">
+                                Bakery
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Unit
+                        </label>
+
+                        <select
+                            id="unit"
+                            required
+                        >
+
+                            <option value="">
+                                Select Unit
+                            </option>
+
+                            <option value="kg">
+                                kg
+                            </option>
+
+                            <option value="500g">
+                                500g
+                            </option>
+
+                            <option value="250g">
+                                250g
+                            </option>
+
+                            <option value="liter">
+                                Liter
+                            </option>
+
+                            <option value="piece">
+                                Piece
+                            </option>
+
+                            <option value="dozen">
+                                Dozen
+                            </option>
+
+                            <option value="pack">
+                                Pack
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Price (৳)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="price"
+                            min="0"
+                            placeholder="69"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Stock
+                        </label>
+
+                        <input
+                            type="number"
+                            id="stock"
+                            min="0"
+                            placeholder="50"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Product Image URL
+                    </label>
+
+                    <input
+                        type="text"
+                        id="image"
+                        placeholder="https://example.com/tomato.jpg"
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Fresh locally sourced tomatoes..."
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="checkbox-group">
+
+                    <input
+                        type="checkbox"
+                        id="isPopular"
+                    >
+
+                    <label for="isPopular">
+                        Mark as Popular Product
+                    </label>
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="form-submit"
+                >
+                    Add Product
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<script src="admin.js"></script>
+<script src="add-product.js"></script>
+
+</body>
+
+</html>
